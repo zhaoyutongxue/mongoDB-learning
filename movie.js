@@ -24,7 +24,13 @@ const movieSchema = new mongoose.Schema({
 
 const Movie = mongoose.model('Movie', movieSchema);
 
-const starWar = new Movie({ title: 'Star wars', year: 2000, score: '9.5' })
+const starWar = new Movie({ title: 'Star wars', year: 2000, score: '9.5' });
+
+const updateStarWar = async () => {
+    await starWar.save();
+}
+
+updateStarWar();
 
 // Movie.insertMany([
 //     { title: 'a', year: '2000', score: '8' },

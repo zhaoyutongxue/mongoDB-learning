@@ -6,7 +6,7 @@ main().catch(err => console.log(err));
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/oneToFew');
 }
-
+// define schema
 const userSchema = new mongoose.Schema({
     first: String,
     last: String,
@@ -20,9 +20,9 @@ const userSchema = new mongoose.Schema({
 
 
 });
-
+// create model called User
 const User = mongoose.model('User', userSchema);
-
+// create document call u, and modify it. 
 const u = new User({
     first: 'Harry',
     last: 'Potter',
@@ -34,7 +34,7 @@ const u = new User({
         country: 'USA'
     }]
 })
-
+// save the changes in MongoDB
 // const addUser = async () => { await u.save() };
 // addUser();
 
