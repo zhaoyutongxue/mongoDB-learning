@@ -1,57 +1,48 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-mongoose.connect('mongodb://localhost:27017/relationshipDemo', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("MONGO CONNECTION OPEN!!!")
-    })
-    .catch(err => {
-        console.log("OH NO MONGO CONNECTION ERROR!!!!")
-        console.log(err)
-    })
+main().catch(err => console.log(err));
+
+async function main() {
+    await mongoose.connect('mongodb://localhost:27017/oneToFew');
+}
 
 const userSchema = new mongoose.Schema({
     first: String,
     last: String,
-    addresses: [
-        {
-            _id: { id: false },
-            street: String,
-            city: String,
-            state: String,
-            country: String
-        }
-    ]
-})
+    age: Number,
+    addresses: [{
+        street: String,
+        city: String,
+        state: String,
+        country: String
+    }]
+
+
+});
 
 const User = mongoose.model('User', userSchema);
 
-const makeUser = async () => {
-    const u = new User({
-        first: 'Harry',
-        last: 'Potter'
-    })
-    u.addresses.push({
-        street: '123 Sesame St.',
+const u = new User({
+    first: 'Harry',
+    last: 'Potter',
+    age: 9,
+    addresses: [{
+        street: 1,
         city: 'New York',
         state: 'NY',
         country: 'USA'
-    })
-    const res = await u.save()
+    }]
+})
+
+// const addUser = async () => { await u.save() };
+// addUser();
+
+const addAddress = async (id) => {
+    const data = await User.findById(id);
+    data.addresses.push({ street: 8, city: 'Ryde', state: 'NSW', country: 'Australia' });
+    const res = await data.save();
     console.log(res)
 }
 
-const addAddress = async (id) => {
-    const user = await User.findById(id);
-    user.addresses.push(
-        {
-            street: '99 3rd St.',
-            city: 'New York',
-            state: 'NY',
-            country: 'USA'
-        }
-    )
-    const res = await user.save()
-    console.log(res);
-}
-
-// addAddress('5f4426235f9f6233f9ed0996');
+addAddress('62b2aa60e16ad06c32d2bf31');
