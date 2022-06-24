@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 
 
 const Product = require('./models/product');
+const Farm = require('./models/farm');
 
 mongoose.connect('mongodb://localhost:27017/farmStand', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -25,6 +26,43 @@ app.use(methodOverride('_method'))
 
 const categories = ['fruit', 'vegetable', 'dairy'];
 
+// farm route
+app.get('/farms', async (req, res) => {
+    const farms = await Farm.find({})
+    res.render('farms/index', { farms })
+})
+
+app.get('/farms/new', (req, res) => {
+    res.render('farms/new')
+})
+
+app.get('/farms/:id', async (req, res) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id)
+    res.render('farms/show', { farm })
+})
+
+app.post('/farms', async (req, res) => {
+    // res.send(req.body)
+    const newFarm = new Farm(req.body);
+    await newFarm.save();
+    res.redirect('farms')
+    // res.redirect(`/farms/${newFarm._id}`)
+})
+
+app.delete('/farms/:id', async (req, res) => {
+    const { id } = req.params;
+    const deletedFarm = await Farm.findByIdAndDelete(id);
+    res.redirect('/farms');
+})
+
+
+
+
+
+
+
+// product routes
 app.get('/products', async (req, res) => {
     const { category } = req.query;
     if (category) {
@@ -75,5 +113,3 @@ app.delete('/products/:id', async (req, res) => {
 app.listen(3000, () => {
     console.log("APP IS LISTENING ON PORT 3000!")
 })
-
-
