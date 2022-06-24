@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Farm = require('./farm');
+
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
@@ -26,3 +26,4 @@ const productSchema = new Schema({
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
+const Farm = require('./farm');

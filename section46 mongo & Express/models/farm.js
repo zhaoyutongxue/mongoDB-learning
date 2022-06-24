@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
 const farmSchema = new Schema({
     name: {
         type: String,
@@ -20,6 +21,24 @@ const farmSchema = new Schema({
 
 })
 
+// farmSchema.post('findOneAndDelete', async (farm) => {
+//     if (farm.products.length) {
+//         const deleted = await Product.deleteMany({ _id: { $in: farm.products } });
+//         console.log(deleted);
+//     }
+// })
+
+// DELETE ALL ASSOCIATED PRODUCTS AFTER A FARM IS DELETED
+farmSchema.post('findOneAndDelete', async function (farm) {
+    if (farm.products.length) {
+        const res = await Product.deleteMany({ _id: { $in: farm.products } })
+        console.log(res);
+    }
+})
+
+
 const Farm = mongoose.model('Farm', farmSchema);
 
 module.exports = Farm;
+// require Product Model for the middleware 
+const Product = require('./product')
