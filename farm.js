@@ -60,12 +60,19 @@ const run = async () => {
     addProduct()
 }
 
+// seed the database: 
+// run()
 
-run()
+// populate the products under Full Belly Farm
+// Farm.findOne({ name: 'Full Belly Farms' }).populate('products').then(farm => { console.log(farm) })
+// Farm.find().populate('products').then(farm => { console.log(...farm) })
 
-// addProduct()
-// makeFarm()
-// seed()
+
+
+
+
+
+
 
 // Farm.findOne({ name: 'Full Belly Farms' })
 //     .populate('products')
