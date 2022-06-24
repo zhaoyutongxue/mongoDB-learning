@@ -42,6 +42,26 @@ app.get('/farms/:id', async (req, res) => {
     res.render('farms/show', { farm })
 })
 
+
+app.get('/farms/:id/products/new', (req, res) => {
+    const { id } = req.params;
+    res.render('products/new', { categories, id })
+})
+
+app.post('/farms/:id/products/new', async (req, res) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id)
+    const { name, price, categories } = req.body;
+    const product = new Product(req.body);
+    farm.products.push(product);
+    product.farm = farm;
+    res.send(farm);
+    await farm.save();
+    await product.save();
+    // res.render('products/new', { farm, categories, id })
+
+})
+
 app.post('/farms', async (req, res) => {
     // res.send(req.body)
     const newFarm = new Farm(req.body);
