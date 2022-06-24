@@ -36,13 +36,12 @@ const assignTweet = async () => {
     const user = new User({ name: 'Dreymond Green', team: 'Golden State Warriors' });
     await user.save();
     const tweets = await Tweet.find();
-    // console.log(tweets)
+    // console.log('these are the tweets' + tweets)
     for (tweet of tweets) {
+        // console.log(tweet)
         tweet.userName.push(user);
         await tweet.save();
     }
-    // console.log(tweets)
-
 }
 
 
@@ -57,14 +56,6 @@ const run = async () => {
 
 run()
 
-Tweet.find()
-    .populate('userName', 'team')
-    .then(tweet => console.log(...tweet))
-
-
-
-
-// populate the products under Full Belly Farm
-// Farm.findOne({ name: 'Full Belly Farms' }).populate('products').then(farm => { console.log(farm) })
-// Farm.find().populate('products').then(farm => { console.log(...farm) })
-
+// Tweet.find()
+//     .populate('userName', 'team')
+//     .then(tweet => console.log(...tweet))
