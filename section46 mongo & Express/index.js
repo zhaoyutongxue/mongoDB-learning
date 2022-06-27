@@ -71,7 +71,7 @@ app.post('/farms', async (req, res) => {
     res.redirect('farms')
     // res.redirect(`/farms/${newFarm._id}`)
 })
-
+// delete farm, and trigger the middleware "findOneAndDelete" in farm schema
 app.delete('/farms/:id', async (req, res) => {
     const { id } = req.params;
     const deletedFarm = await Farm.findByIdAndDelete(id);
